@@ -1,0 +1,31 @@
+package {{ .Packagename }}
+
+import(
+"net/http"
+)
+func {{ .Opname }}(writer http.ResponseWriter , request *http.Request){
+
+//TODO implementation
+
+}
+func {{ .Opname1 }}(writer http.ResponseWriter , request *http.Request){
+
+//TODO implementation
+
+}
+func {{ .Opname2 }}(writer http.ResponseWriter , request *http.Request){
+
+//TODO implementation
+
+}
+func {{ .Opname3 }}(writer http.ResponseWriter , request *http.Request){
+
+//TODO implementation
+
+}
+func {{ .Opname4 }}(writer http.ResponseWriter , request *http.Request){
+
+//TODO implementation
+
+}
+
