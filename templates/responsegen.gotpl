@@ -1,0 +1,30 @@
+package {{.Package}}
+import (
+	"net/http"
+)
+
+type ListResponse struct {
+	*{{.Struct}}
+}
+
+func (ListResponse) Render(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
+
+func List1(exp *{{.Struct}} ) *ListResponse{
+	resp := &ListResponse{ {{.Struct}}: exp }
+	return resp
+}
+
+type ListAllResponse struct {
+   Multiple *{{.SliceStruct}}
+}
+
+func ListAll(m *{{.SliceStruct}}) *ListAllResponse{
+	return &ListAllResponse{Multiple: m}
+}
+
+func (e *ListAllResponse) Render(w http.ResponseWriter, r *http.Request) error {
+
+	return nil
+}

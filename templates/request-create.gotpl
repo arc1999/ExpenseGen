@@ -1,10 +1,10 @@
-package request
+package {{.Package}}
 import (
 
 	"net/http"
 )
 type Createreq struct {
-	*types.{{.Struct}}
+	*{{.Struct}}
 }
 
 

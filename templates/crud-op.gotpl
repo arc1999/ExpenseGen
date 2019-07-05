@@ -1,31 +1,117 @@
-package {{ .Packagename }}
+package {{.Package}}
 
 import(
 "net/http"
+"context"
+"fmt"
+"errors"
+"log"
+"strconv"
+"github.com/go-chi/chi"
+"github.com/go-chi/chi/middleware"
+"github.com/go-chi/render"
 )
-func {{ .Opname }}(writer http.ResponseWriter , request *http.Request){
+var obj {{.Struct}}
+var {{.Package}} {{.SliceStruct}}
 
+func Init(){
+	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
+	r.Route("/{{.Package}}", func(r chi.Router) {
+		r.Post("/", Create)
+		r.Get("/", GetAll)
+		r.Route("/{id}", func(r chi.Router) {
+			r.Use(CrudContext)
+			r.Get("/",GetId)
+			r.Put("/", Update)
+			r.Delete("/", Delete)
+		})
+	})
+	log.Fatal(http.ListenAndServe(":8084", r))
+}
+
+func CrudContext(next http.Handler) http.Handler {
+return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        var err error
+        flag:=1
+		ID := chi.URLParam(r, "id")
+		b,_:=strconv.Atoi(ID)
+		for _, a := range {{.Package}}{
+			if a.Id == b {
+				flag=0
+				ctx := context.WithValue(r.Context(), "key", a )
+				next.ServeHTTP(w, r.WithContext(ctx))
+			}
+		}
+		if flag ==1{
+			err=errors.New("ID not Found")
+			//render.Render(w, r, errrs.ErrRender(err))
+			fmt.Println(err)
+		}
+		})
+}
+func Create(writer http.ResponseWriter , request *http.Request){
+var req Createreq
+	var err error
+	err = render.Bind(request, &req)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+     {{.Package}}= append({{.Package}}, *req.{{.Struct}})
+	render.Render(writer, request, List1(req.{{.Struct}}))
 //TODO implementation
 
 }
-func {{ .Opname1 }}(writer http.ResponseWriter , request *http.Request){
-
-//TODO implementation
+func Update(writer http.ResponseWriter , request *http.Request){
+obj = request.Context().Value("key").({{.Struct}})
+var req Updatereq
+err:= render.Bind(request,&req)
+    if err != nil {
+        log.Println(err)
+        return
+    }
+// for loop -> get index of expense
+        for index, e := range {{.Package}} {
+            if e.Id == obj.Id {
+                  {{.Package}}[index] = *req.{{.Struct}}
+            }
+    }
+        errs:=render.Render(writer, request,List1(&obj))
+    if errs != nil {
+       fmt.Println(err)
+       return
+    }
+}
+func Delete(writer http.ResponseWriter , request *http.Request){
+obj = request.Context().Value("key").({{.Struct}})
+    {{.Package}}=append({{.Package}}[:obj.Id], {{.Package}}[obj.Id+1:]...)
+     err:=render.Render(writer,request,ListAll(&{{.Package}}))
+    if err != nil {
+        fmt.Println(err)
+        return
+            }
+}
+func GetAll(writer http.ResponseWriter , request *http.Request){
+    err := render.Render(writer, request, ListAll(&{{.Package}}))
+        if err != nil {
+              panic(err)
+             //render.Render(writer,request,errrs.ErrRender(err))
+            return
+    }
 
 }
-func {{ .Opname2 }}(writer http.ResponseWriter , request *http.Request){
-
-//TODO implementation
-
-}
-func {{ .Opname3 }}(writer http.ResponseWriter , request *http.Request){
-
-//TODO implementation
-
-}
-func {{ .Opname4 }}(writer http.ResponseWriter , request *http.Request){
-
-//TODO implementation
-
+func GetId(writer http.ResponseWriter , request *http.Request){
+            obj = request.Context().Value("key").({{.Struct}})
+            err:=render.Render(writer, request, List1(&obj))
+                if err != nil {
+         //render.Render(writer,request,errrs.ErrRender(err))
+                   panic(err)
+                   return
+                   }
 }
 
