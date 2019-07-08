@@ -76,24 +76,22 @@ err = render.Bind(request, &req)
 }
 func Update(writer http.ResponseWriter , request *http.Request){
 db=request.Context().Value("key").(*gorm.DB)
-var upreq Updatereq
-err:= render.Bind(request,&upreq)
-   if err != nil {
-       log.Println(err)
-       return
-   }
-    var temp {{.Struct}}
-       temp=*upreq.{{.Struct}}
-       temp.UpdatedOn=time.Now()
-        Db := db.Update(&temp)
-       if(Db.RowsAffected == 0){
-           err=errors.New("Expense not found")
-           fmt.Println(err)
-           return
-       }else{
-           err=render.Render(writer, request, List1(&temp))
-           fmt.Println(err)
-            }
+    var Req Updatereq
+	err:= render.Bind(request,&Req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	temp:=*Req.{{.Struct}}
+	temp.UpdatedOn=time.Now()
+	dB:= db.Update(&temp)
+    			if(dB.RowsAffected == 0){
+    				err=errors.New("Expense not found")
+    				fmt.Println(err)
+    				return
+    			}else{
+    				_=render.Render(writer, request, List1(&temp))
+    			}
  }
 func Delete(writer http.ResponseWriter , request *http.Request){
  db=request.Context().Value("key").(*gorm.DB)
@@ -108,26 +106,23 @@ func Delete(writer http.ResponseWriter , request *http.Request){
              }
 }
 func GetAll(writer http.ResponseWriter , request *http.Request){
-  db1:=db.Find(&{{.Package}})
-
-      if db1.RowsAffected!=0{
-          render.Render(writer,request,ListAll(&{{.Package}}))
-          return
-
-      }else{
-          err=errors.New("Unable to fetch")
-          fmt.Println(err)
-          return
-}
-}
-func GetId(writer http.ResponseWriter , request *http.Request){
-   db=request.Context().Value("key").(*gorm.DB)
-    Db:=db.Find(&obj)
-  if(Db.RowsAffected == 0){
-  		err=errors.New("Expense not found")
+  db.Find(&{{.Package}})
+  fmt.Println({{.Package}})
+  	err = render.Render(writer, request, ListAll(&{{.Package}}))
+  	if err != nil {
   		fmt.Println(err)
   		return
   	}
-       _=render.Render(writer, request, List1(&obj))
+}
+func GetId(writer http.ResponseWriter , request *http.Request){
+   db = request.Context().Value("key").(*gorm.DB)
+   	dB:=db.Find(&obj)
+   	if(dB.RowsAffected == 0){
+   		err:=errors.New("{{.Struct}}"+"not found")
+   		fmt.Println(err)
+   		return
+   	}else{
+   		_=render.Render(writer, request, List1(&obj))
+   	}
 
 }
