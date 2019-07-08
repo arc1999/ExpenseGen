@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-//go:generate reform
+// go:generate reform
 // reform:Books
 type Expense struct {
 	Id          int       `reform:"id,pk"`

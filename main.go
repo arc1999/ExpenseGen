@@ -1,7 +1,7 @@
 package main
 
 import (
-
+	"Expense/ExpenseGen/expenses"
 	"flag"
 	"fmt"
 
@@ -70,5 +70,6 @@ func main() {
 fmt.Println("sd")
 
 	}
-	//books.Init()
+//
+expenses.Init()
 }
