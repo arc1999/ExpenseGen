@@ -74,9 +74,9 @@ err = render.Bind(request, &req)
 	temp.UpdatedOn=time.Now()
 	err=db.Save(&temp)
 	if err != nil {
-            		fmt.Println(err)
-            		return
-            	}
+        fmt.Println(err)
+        return
+        }
 	render.Render(writer, request,List1(&temp))
 }
 func GetId(writer http.ResponseWriter , request *http.Request){
@@ -86,7 +86,7 @@ func GetId(writer http.ResponseWriter , request *http.Request){
 }
 func GetAll(writer http.ResponseWriter , request *http.Request){
 flag:=1
-    tables, err := db1.SelectRows(ExpenseTable, "WHERE id IS NOT NULL")
+    tables, err := db.SelectRows(ExpenseTable, "WHERE id IS NOT NULL")
     if err != nil {
         fmt.Println(err)
         return
@@ -94,7 +94,7 @@ flag:=1
     defer tables.Close()
 
     for flag!=0{
-        err = db1.NextRow(&obj, tables)
+        err = db.NextRow(&obj, tables)
         expenses=append(expenses,obj)
         //fmt.Println(obj)
         if err!=nil{

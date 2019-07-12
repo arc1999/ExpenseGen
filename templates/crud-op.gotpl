@@ -17,7 +17,7 @@ _ "github.com/go-sql-driver/mysql"
 	"time"
 )
 var obj {{.Struct}}
-type Expenses []{{.Struct}}
+type {{.SliceStruct}} []{{.Struct}}
 var {{.Package}} {{.SliceStruct}}
 var db *reform.DB
 var err error
@@ -55,7 +55,7 @@ return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 ID := chi.URLParam(r, "id")
 id,_:=strconv.Atoi(ID)
-		temp,err :=db.FindByPrimaryKeyFrom(ExpenseTable,id)
+		temp,err :=db.FindByPrimaryKeyFrom({{.Struct}}Tabl,id)
 
 		if err != nil {
         		fmt.Println(err)
@@ -74,19 +74,19 @@ err = render.Bind(request, &req)
 	temp.UpdatedOn=time.Now()
 	err=db.Save(&temp)
 	if err != nil {
-            		fmt.Println(err)
-            		return
-            	}
+        fmt.Println(err)
+        return
+        }
 	render.Render(writer, request,List1(&temp))
 }
 func GetId(writer http.ResponseWriter , request *http.Request){
- 	temp:= request.Context().Value("key").(*Expense)
+ 	temp:= request.Context().Value("key").(*{{.Struct}})
  		_ = render.Render(writer, request,List1(temp))
 
 }
 func GetAll(writer http.ResponseWriter , request *http.Request){
 flag:=1
-    tables, err := db1.SelectRows(ExpenseTable, "WHERE id IS NOT NULL")
+    tables, err := db.SelectRows({{.Struct}}Table, "WHERE id IS NOT NULL")
     if err != nil {
         fmt.Println(err)
         return
@@ -94,15 +94,14 @@ flag:=1
     defer tables.Close()
 
     for flag!=0{
-        err = db1.NextRow(&obj, tables)
-        expenses=append(expenses,obj)
-        //fmt.Println(obj)
+        err = db.NextRow(&obj, tables)
         if err!=nil{
             flag=0
             break
         }
+        {{.Package}}=append({{.Package}},obj)
     }
-    _=render.Render(writer, request, ListAll(&expenses))
+    _=render.Render(writer, request, ListAll(&{{.Package}}))
 }
 func Update(writer http.ResponseWriter , request *http.Request){
 s:=request.Context().Value("key").(*{{.Struct}})

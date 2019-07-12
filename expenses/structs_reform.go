@@ -46,8 +46,8 @@ func (v *expenseTableType) PKColumnIndex() uint {
 }
 
 // ExpenseTable represents ExpenseTable view or table in SQL database.
-var ExpenseTable = &expenseTableType {
-	s: parse.StructInfo{Type:"Expense", SQLSchema:"", SQLName:"ExpenseTable", Fields:[]parse.FieldInfo{parse.FieldInfo{Name:"ID", Type:"int32", Column:"id"}, parse.FieldInfo{Name:"Description", Type:"string", Column:"description"}, parse.FieldInfo{Name:"Type", Type:"string", Column:"type"}, parse.FieldInfo{Name:"Amount", Type:"float64", Column:"amount"}, parse.FieldInfo{Name:"CreatedOn", Type:"time.Time", Column:"created_on"}, parse.FieldInfo{Name:"UpdatedOn", Type:"time.Time", Column:"updated_on"}}, PKFieldIndex:0},
+var ExpenseTable = &expenseTableType{
+	s: parse.StructInfo{Type: "Expense", SQLSchema: "", SQLName: "ExpenseTable", Fields: []parse.FieldInfo{{Name: "ID", Type: "int32", Column: "id"}, {Name: "Description", Type: "string", Column: "description"}, {Name: "Type", Type: "string", Column: "type"}, {Name: "Amount", Type: "float64", Column: "amount"}, {Name: "CreatedOn", Type: "time.Time", Column: "created_on"}, {Name: "UpdatedOn", Type: "time.Time", Column: "updated_on"}}, PKFieldIndex: 0},
 	z: new(Expense).Values(),
 }
 
