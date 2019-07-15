@@ -94,9 +94,11 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+   * **Ayush Chauhan**   <https://github.com/arc1999>
+   * **Shrikar Vaitala** <https://github.com/shrikar007>
+   * **Pawas Seth**      <https://github.com/sethpawas>
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
 
 ## License
 
