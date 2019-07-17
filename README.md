@@ -2,7 +2,7 @@
 
 The Project Aims to Devlop Genric Template for Creation of REST API with MYSQL DB Integration. The project includes MYSQL DB integration. The Binary File in the Project Genrates the Request ,Response ,Error & CRUD Handlers You just need to Define a struct type for your API and Run the Reform Command in order to Build Your Complete API.
 
-## Getting Started
+## Steps you need to follow
 For Getting Started You Need to have Go 1.10+. Install or update the following Packages
 * [Reform](https://github.com/go-reform/reform) - A better ORM for Go, based on non-empty interfaces and code generation
 * [go-chi](https://github.com/go-chi/render) - easily manage HTTP request / response payloads of Go HTTP services 
