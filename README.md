@@ -80,9 +80,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Reform](https://github.com/go-reform/reform) - A better ORM for Go, based on non-empty interfaces and code generation
+* [go-chi](https://github.com/go-chi/render) - easily manage HTTP request / response payloads of Go HTTP services 
+* [packr](https://github.com/gobuffalo/packr) - The simple and easy way to embed static files into Go binaries.
 
 ## Contributing
 
