@@ -45,7 +45,6 @@ func Init(){
                    r.Use(CrudContext)
                    r.Get("/",GetId)
                    r.Put("/",Update)
-                   r.Delete("/",Delete)
                })
            })
            log.Fatal(http.ListenAndServe(":8080", r))
@@ -56,7 +55,7 @@ return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 ID := chi.URLParam(r, "id")
 id,_:=strconv.Atoi(ID)
-		temp,err :=db.FindByPrimaryKeyFrom({{.Struct}}Table,id)
+		temp,err :=db.FindByPrimaryKeyFrom({{.Struct}}Tabl,id)
 
 		if err != nil {
         		fmt.Println(err)
@@ -98,9 +97,9 @@ flag:=1
         err = db.NextRow(&obj, tables)
         if err!=nil{
             flag=0
-        }else{
-        {{.Package}}=append({{.Package}},obj)
+            break
         }
+        {{.Package}}=append({{.Package}},obj)
     }
     _=render.Render(writer, request, ListAll(&{{.Package}}))
 }
@@ -126,8 +125,8 @@ err:= render.Bind(request,&upreq)
                  fmt.Println(err)
                  return
              }else{
-                fmt.Fprintf(writer,`{UpdateSuccess:True}`)
-
+                 err=render.Render(writer, request, List1(&temp))
+                 fmt.Println(err)
                   }
 }
 func Delete(writer http.ResponseWriter , request *http.Request){
@@ -136,6 +135,6 @@ s:=request.Context().Value("key").(*{{.Struct}})
     if err != nil {
         panic(err)
     }else{
-        fmt.Fprintf(writer,`{DeleteSuccess:True}`)
+        _=render.Render(writer, request, List1(s))
     }
 }
