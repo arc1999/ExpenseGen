@@ -21,7 +21,7 @@ type ListAllResponse struct {
 }
 
 func ListAll(m *Expenses) *ListAllResponse{
-	return &ListAllResponse{Multiple: m}
+	return &ListAllResponse{m}
 }
 
 func (e *ListAllResponse) Render(w http.ResponseWriter, r *http.Request) error {

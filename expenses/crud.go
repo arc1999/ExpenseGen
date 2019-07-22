@@ -45,6 +45,7 @@ func Init(){
                    r.Use(CrudContext)
                    r.Get("/",GetId)
                    r.Put("/",Update)
+                   r.Delete("/",Delete)
                })
            })
            log.Fatal(http.ListenAndServe(":8080", r))
@@ -95,11 +96,10 @@ flag:=1
 
     for flag!=0{
         err = db.NextRow(&obj, tables)
-        expenses=append(expenses,obj)
-        //fmt.Println(obj)
         if err!=nil{
             flag=0
-            break
+        }else{
+        expenses=append(expenses,obj)
         }
     }
     _=render.Render(writer, request, ListAll(&expenses))
@@ -126,8 +126,8 @@ err:= render.Bind(request,&upreq)
                  fmt.Println(err)
                  return
              }else{
-                 err=render.Render(writer, request, List1(&temp))
-                 fmt.Println(err)
+                fmt.Fprintf(writer,`{UpdateSuccess:True}`)
+
                   }
 }
 func Delete(writer http.ResponseWriter , request *http.Request){
@@ -136,6 +136,6 @@ s:=request.Context().Value("key").(*Expense)
     if err != nil {
         panic(err)
     }else{
-        _=render.Render(writer, request, List1(s))
+        fmt.Fprintf(writer,`{DeleteSuccess:True}`)
     }
 }
